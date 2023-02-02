@@ -33,32 +33,32 @@
 	>
 		<div>
 			<label>Team 1</label>
-			<select name="team[0][playerId][]">
+			<select name="teams[0][playerIds][0]">
 				{#each $queryPlayers.data.players as player}
 					<option value={player.id}>{player.name}</option>
 				{/each}
 			</select>
-			<select name="team[0][playerId][]">
+			<select name="teams[0][playerIds][1]">
 				{#each $queryPlayers.data.players as player}
 					<option value={player.id}>{player.name}</option>
 				{/each}
 			</select>
-			<input name="team[0][score]" type="number" />
+			<input name="teams[0][score]" type="number" value="0" />
 		</div>
 
 		<div>
 			<label>Team 2</label>
-			<select name="team[1][playerId][]">
+			<select name="teams[1][playerIds][0]">
 				{#each $queryPlayers.data.players as player}
 					<option value={player.id}>{player.name}</option>
 				{/each}
 			</select>
-			<select name="team[1][playerId][]">
+			<select name="teams[1][playerIds][1]">
 				{#each $queryPlayers.data.players as player}
 					<option value={player.id}>{player.name}</option>
 				{/each}
 			</select>
-			<input name="team[1][score]" type="number" />
+			<input name="teams[1][score]" type="number" value="0" />
 		</div>
 		<slot />
 	</form>
