@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { createGame } from '../src/lib/server/services/game.service';
 import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
@@ -17,49 +18,25 @@ async function main() {
 	});
 
 	const players = await Promise.all(createPlayers);
-	const createGames = Array.from({ length: 30 }).map(() => {
-		return prisma.game.create({
-			data: {
-				teams: {
-					create: [
-						{
-							score: faker.datatype.number(2),
-							team: {
-								create: {
-									players: {
-										connect: [
-											{
-												id: players[Math.floor(Math.random()) * players.length].id,
-											},
-											{
-												id: players[Math.floor(Math.random()) * players.length].id,
-											},
-										],
-									},
-								},
-							},
-						},
-						{
-							score: faker.datatype.number(2),
-							team: {
-								create: {
-									players: {
-										connect: [
-											{
-												id: players[Math.floor(Math.random()) * players.length].id,
-											},
-											{
-												id: players[Math.floor(Math.random()) * players.length].id,
-											},
-										],
-									},
-								},
-							},
-						},
-					],
-				},
-			},
+	const createGames = Array.from({ length: 30 }).map(async () => {
+		const _tempPlayers = [...players];
+		const teams = Array.from({ length: 2 }).map(() => {
+			const playerIds = Array.from({ length: 2 }).map(() => {
+				const playerId = faker.helpers.arrayElement(_tempPlayers).id;
+				_tempPlayers.splice(
+					_tempPlayers.findIndex((p) => p.id === playerId),
+					1
+				);
+				return playerId;
+			});
+
+			return {
+				score: faker.datatype.number({ min: 0, max: 10 }),
+				playerIds,
+			};
 		});
+
+		return await createGame({ teams });
 	});
 	const games = await Promise.all(createGames);
 

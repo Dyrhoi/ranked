@@ -37,7 +37,7 @@ model TeamOnGame {
   team Team @relation(fields: [teamId], references: [id])
   teamId Int
   game Game @relation(fields: [gameId], references: [id])
-  gameId Int
+  gameId Int @map("game_id")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -59,7 +59,7 @@ model Elo {
   player Player @relation(fields: [playerId], references: [id])
   playerId Int
   game Game? @relation(fields: [gameId], references: [id])
-  gameId Int? 
+  gameId Int? @map("game_id") 
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

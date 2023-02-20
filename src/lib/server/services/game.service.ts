@@ -5,7 +5,6 @@
 
 import { getNewRating } from '$lib/shared/utils/elo.utils';
 import type { CreateGameSchema } from '$lib/shared/validation/zod';
-import type { TeamOnGame } from '@prisma/client';
 import { db } from '../database';
 import { getCurrentEloFromInstants } from './elo.service';
 
@@ -102,4 +101,19 @@ export const createGame = async ({ teams }: CreateGameSchema) => {
 	});
 
 	return game;
+};
+
+interface Options {
+	maxTeams: number;
+	limit: number;
+	page: number;
+}
+export const getGames = async (opt: Options = { maxTeams: 2, limit: 30, page: 1 }) => {
+	const games = db.$queryRaw`
+	SELECT "Game".id FROM "Game" JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
+	GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) <= ${opt.maxTeams}
+	LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
+	`;
+
+	return (await games) as { id: number }[];
 };

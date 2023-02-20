@@ -22,7 +22,7 @@ CREATE TABLE "TeamOnGame" (
     "id" SERIAL NOT NULL,
     "score" INTEGER NOT NULL,
     "teamId" INTEGER NOT NULL,
-    "gameId" INTEGER NOT NULL,
+    "game_id" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -43,7 +43,7 @@ CREATE TABLE "Elo" (
     "id" SERIAL NOT NULL,
     "elo" INTEGER NOT NULL,
     "playerId" INTEGER NOT NULL,
-    "gameId" INTEGER,
+    "game_id" INTEGER,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -69,13 +69,13 @@ CREATE INDEX "_PlayerToTeam_B_index" ON "_PlayerToTeam"("B");
 ALTER TABLE "TeamOnGame" ADD CONSTRAINT "TeamOnGame_teamId_fkey" FOREIGN KEY ("teamId") REFERENCES "Team"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "TeamOnGame" ADD CONSTRAINT "TeamOnGame_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "TeamOnGame" ADD CONSTRAINT "TeamOnGame_game_id_fkey" FOREIGN KEY ("game_id") REFERENCES "Game"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Elo" ADD CONSTRAINT "Elo_playerId_fkey" FOREIGN KEY ("playerId") REFERENCES "Player"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Elo" ADD CONSTRAINT "Elo_gameId_fkey" FOREIGN KEY ("gameId") REFERENCES "Game"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Elo" ADD CONSTRAINT "Elo_game_id_fkey" FOREIGN KEY ("game_id") REFERENCES "Game"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "_PlayerToTeam" ADD CONSTRAINT "_PlayerToTeam_A_fkey" FOREIGN KEY ("A") REFERENCES "Player"("id") ON DELETE CASCADE ON UPDATE CASCADE;
