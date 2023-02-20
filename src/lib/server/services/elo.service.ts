@@ -28,7 +28,7 @@ export const getEloDifferenceFromGame = async (gameId: number, playerId: number)
 		where: { gameId: gameId, playerId: playerId },
 	});
 
-	if (!eloIAfterGame) return 0;
+	if (!eloIAfterGame) return { difference: 0, before: 0, after: 0 };
 
 	const eloIBeforeGame = await db.elo.findFirst({
 		where: { playerId: playerId, createdAt: { lt: eloIAfterGame.createdAt } },
@@ -38,5 +38,9 @@ export const getEloDifferenceFromGame = async (gameId: number, playerId: number)
 	const eloAfterGame = eloIAfterGame.elo;
 	const eloBeforeGame = eloIBeforeGame ? eloIBeforeGame.elo : START_ELO;
 
-	return eloAfterGame - eloBeforeGame;
+	return {
+		difference: eloAfterGame - eloBeforeGame,
+		before: eloBeforeGame,
+		after: eloAfterGame,
+	};
 };

@@ -16,7 +16,8 @@
 								{#each team.players as player}
 									<div class="bg-gray-300">
 										{player.name}
-										{player.eloDifference}
+										B: {player.eloDifference.before} A {player.eloDifference.after} D:
+										{player.eloDifference.difference}
 									</div>
 								{/each}
 							</div>

@@ -1,8 +1,15 @@
 import { db } from '$lib/server/database';
 import { getEloDifferenceFromGame } from '$lib/server/services/elo.service';
+import { getGames } from '$lib/server/services/game.service';
 import type { PageServerLoad } from './$types';
 
+/**
+ * Return the games with their respective teams and players.
+ * The players are enriched with their elo difference from the game.
+ *  */
 export const load = (async () => {
+	const gamesToFetch = await getGames();
+
 	const games = await Promise.all(
 		(
 			await db.game.findMany({
@@ -10,6 +17,7 @@ export const load = (async () => {
 					teams: { include: { team: { include: { players: true } } } },
 					eloInstants: true,
 				},
+				where: { id: { in: gamesToFetch.map((game) => game.id) } },
 				orderBy: { createdAt: 'desc' },
 			})
 		)
@@ -37,6 +45,5 @@ export const load = (async () => {
 				),
 			}))
 	);
-
 	return { games };
 }) satisfies PageServerLoad;
