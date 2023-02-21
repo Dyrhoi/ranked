@@ -1,10 +1,7 @@
 <script>
-	import { CreateGameModal } from './game';
+	import { Nav } from './nav';
 </script>
 
-<nav>
-	<span>Ranked</span>
-	<CreateGameModal />
-</nav>
+<Nav />
 <slot />
 <footer>2023</footer>

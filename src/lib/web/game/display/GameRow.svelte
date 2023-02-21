@@ -11,7 +11,8 @@
 	import { recentTime } from '$lib/shared/utils/date.util';
 	import Label from '$lib/web/Label.svelte';
 
-	import { Icon, Calendar, ChevronRight } from 'svelte-hero-icons';
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { Calendar, ChevronRight } from '@steeze-ui/heroicons';
 
 	export let game: GameInfo;
 </script>
@@ -73,7 +74,7 @@
 		<div class="flex justify-between text-sm items-center">
 			<div class="flex">
 				<Label>
-					<Icon size="1.2em" solid src={Calendar} />
+					<Icon size="1.2em" theme="solid" src={Calendar} />
 					{recentTime(game.createdAt)}
 				</Label>
 			</div>
