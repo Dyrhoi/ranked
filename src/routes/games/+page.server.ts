@@ -41,6 +41,7 @@ export const load = (async () => {
 								eloDifference: await getEloDifferenceFromGame(game.id, player.id),
 							}))
 						),
+						winner: team.score >= Math.max(...game.teams.map((t) => t.score)),
 					}))
 				),
 			}))

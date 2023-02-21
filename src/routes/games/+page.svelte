@@ -1,30 +1,18 @@
+<script lang="ts" context="module">
+	export type GameInfo = PageData['games'][number];
+</script>
+
 <script lang="ts">
+	import GameRow from '$lib/web/game/display/GameRow.svelte';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>
 
-<table>
-	<tbody>
+<div class="container max-w-[720px]">
+	<div class="grid gap-4">
 		{#each data.games as game}
-			<tr>
-				<td>{game.id}</td>
-				<td>
-					<div class="flex gap-4">
-						{#each game.teams as team}
-							<div>
-								{#each team.players as player}
-									<div class="bg-gray-100">
-										{player.name}
-										B: {player.eloDifference.before} A {player.eloDifference.after} D:
-										{player.eloDifference.difference}
-									</div>
-								{/each}
-							</div>
-						{/each}
-					</div>
-				</td>
-			</tr>
+			<GameRow {game} />
 		{/each}
-	</tbody>
-</table>
+	</div>
+</div>

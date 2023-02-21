@@ -109,11 +109,11 @@ interface Options {
 	page: number;
 }
 export const getGames = async (opt: Options = { maxTeams: 2, limit: 30, page: 1 }) => {
-	const games = db.$queryRaw`
+	const games = db.$queryRaw<{ id: number }[]>`
 	SELECT "Game".id FROM "Game" JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
-	GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) <= ${opt.maxTeams}
+	GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) = ${opt.maxTeams}
 	LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
 	`;
 
-	return (await games) as { id: number }[];
+	return await games;
 };
