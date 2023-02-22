@@ -12,6 +12,14 @@
 	body {
 		@apply bg-bg text-text font-body;
 	}
+	label {
+		@apply text-sm font-semibold uppercase text-text-title flex flex-col gap-2;
+	}
+	input,
+	select,
+	option {
+		@apply text-sm rounded-lg block w-full p-2.5 outline-none bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500;
+	}
 }
 
 @layer components {

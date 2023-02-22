@@ -13,6 +13,7 @@ module.exports = {
 			colors: {
 				bg: {
 					DEFAULT: '#000612',
+					off: '#010817',
 				},
 				text: {
 					DEFAULT: '#b4bdd0',

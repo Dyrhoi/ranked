@@ -3,13 +3,15 @@
 
 	let clazz: string = '';
 	export { clazz as class };
+
+	export let clickAble = false;
 </script>
 
 <div
 	class={classnames(
 		'bg-gradient-to-t from-white/5 to-white/0 card p-24 rounded-xl relative overflow-hidden',
 		clazz,
-		'after:'
+		{ 'cursor-pointer clickable': clickAble }
 	)}
 >
 	<slot />
@@ -36,23 +38,25 @@
 			-webkit-mask-composite: xor;
 		}
 
-		&::after {
-			transition: all 0.2s;
-			background-position: left;
-			background: linear-gradient(
-				to bottom right,
-				rgba(255, 255, 255, 0) 30%,
-				rgba(255, 255, 255, 0.02),
-				rgba(255, 255, 255, 0) 70%
-			);
-			background-size: 100% 200%;
-			opacity: 0;
-		}
-
-		&:hover {
+		&.clickable {
 			&::after {
-				background-position: right;
-				opacity: 1;
+				transition: all 0.2s;
+				background-position: left;
+				background: linear-gradient(
+					to bottom right,
+					rgba(255, 255, 255, 0) 30%,
+					rgba(255, 255, 255, 0.02),
+					rgba(255, 255, 255, 0) 70%
+				);
+				background-size: 100% 200%;
+				opacity: 0;
+			}
+
+			&:hover {
+				&::after {
+					background-position: right;
+					opacity: 1;
+				}
 			}
 		}
 	}

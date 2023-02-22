@@ -1,25 +1,18 @@
 <script lang="ts">
-	import {
-		Dialog,
-		DialogOverlay,
-		DialogTitle,
-		DialogDescription,
-	} from '@rgossiaux/svelte-headlessui';
-	import { CreateGame } from '.';
+	import { CreateGameForm } from '.';
+	import { Modal } from '../modal';
 
-	export let isOpen = false;
+	export let isOpen = true;
 </script>
 
-<Dialog open={isOpen} on:close={() => (isOpen = false)}>
-	<DialogOverlay />
+<Modal open={isOpen} on:close={() => (isOpen = false)}>
+	<p slot="title">Create game</p>
+	<p slot="description">Who won?</p>
 
-	<DialogTitle>Create game</DialogTitle>
-	<DialogDescription>How'd it go?</DialogDescription>
-
-	<CreateGame on:modal:close={() => (isOpen = false)}>
-		<button type="submit">Create</button>
+	<CreateGameForm on:modal:close={() => (isOpen = false)}>
 		<button on:click={() => (isOpen = false)}>Cancel</button>
-	</CreateGame>
-</Dialog>
+		<button type="submit">Create</button>
+	</CreateGameForm>
+</Modal>
 
 <button on:click={() => (isOpen = true)}>Create Game</button>
