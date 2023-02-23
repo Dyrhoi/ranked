@@ -1,5 +1,6 @@
 <script lang="ts">
 	import classnames from 'classnames';
+	import { twMerge } from 'tailwind-merge';
 
 	let clazz: string = '';
 	export { clazz as class };
@@ -9,8 +10,10 @@
 
 <div
 	class={classnames(
-		'bg-gradient-to-t from-white/5 to-white/0 card p-24 rounded-xl relative overflow-hidden',
-		clazz,
+		twMerge(
+			'bg-gradient-to-t from-white/5 to-white/0 card p-24 rounded-xl relative overflow-hidden',
+			clazz
+		),
 		{ 'cursor-pointer clickable': clickAble }
 	)}
 >

@@ -13,7 +13,14 @@ module.exports = {
 			colors: {
 				bg: {
 					DEFAULT: '#000612',
-					off: '#010817',
+					modal: {
+						from: 'rgb(12 16 24)',
+						to: 'rgb(9 15 28)',
+					},
+					input: {
+						DEFAULT: '#0c111c',
+						border: '#141d30',
+					},
 				},
 				text: {
 					DEFAULT: '#b4bdd0',

@@ -9,8 +9,8 @@
 	<p slot="title">Create game</p>
 	<p slot="description">Who won?</p>
 
-	<CreateGameForm on:modal:close={() => (isOpen = false)}>
-		<button on:click={() => (isOpen = false)}>Cancel</button>
+	<CreateGameForm on:close={() => (isOpen = false)}>
+		<button type="button" on:click={() => (isOpen = false)}>Cancel</button>
 		<button type="submit">Create</button>
 	</CreateGameForm>
 </Modal>

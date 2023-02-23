@@ -8,7 +8,7 @@
 
 <Card
 	class={classnames(
-		'py-[0.2em] px-[0.6em] rounded flex gap-[0.5em] items-center from-white/20 to-white/5',
+		'py-[0.2em] px-[0.6em] rounded flex gap-[0.5em] items-center transition-colors bg-gradient-to-t from-white/20 to-white/0 hover:from-white/30',
 		clazz
 	)}
 >
