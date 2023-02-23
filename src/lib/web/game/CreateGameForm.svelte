@@ -46,7 +46,7 @@
 		}) || [];
 </script>
 
-<div class="max-w-xl w-full">
+<div class="w-full">
 	{#if $queryPlayers.isLoading}
 		<span>Loading players...</span>
 	{:else if $queryPlayers.isError}
@@ -57,8 +57,9 @@
 			method="POST"
 			on:submit|preventDefault={() => $createGame.mutate()}
 			bind:this={form}
+			class="grid gap-12"
 		>
-			<div class="grid gap-12">
+			<div class="flex gap-12 flex-col lg:flex-row lg:gap-48">
 				{#each teams as _, teamIndex}
 					<div>
 						<p class="font-semibold text-text-title mb-4">Team {teamIndex + 1}</p>
@@ -84,16 +85,26 @@
 								</p>
 								<div class="grid gap-4">
 									{#each teams[teamIndex] as _, playerIndex}
-										<PlayerSearch
-											name="teams[{teamIndex}][playerIds][{playerIndex}]"
-											players={availablePlayers}
-											on:select={(e) => {
-												teams[teamIndex][playerIndex] = e.detail.id;
-											}}
-										/>
+										<div class="flex items-center justify-between gap-4">
+											<span
+												class="-ml-9 w-6 h-6 bg-bg-modal-from rounded-full relative z-10 justify-center flex items-center text-xs"
+												>{playerIndex + 1}</span
+											>
+											<div class="flex-1">
+												<PlayerSearch
+													name="teams[{teamIndex}][playerIds][{playerIndex}]"
+													players={availablePlayers}
+													on:select={(e) => {
+														teams[teamIndex][playerIndex] = e.detail.id;
+													}}
+												/>
+											</div>
+										</div>
 									{/each}
 									<div class="flex justify-end">
-										<button type="button" on:click={() => addPlayer(teamIndex)}>Add Player</button>
+										<button type="button" tabindex="-1" on:click={() => addPlayer(teamIndex)}
+											>Add Player</button
+										>
 									</div>
 								</div>
 							</label>

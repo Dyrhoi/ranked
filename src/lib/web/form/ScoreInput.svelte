@@ -17,11 +17,15 @@
 
 <div class="flex justify-between gap-8 items-center">
 	<div>
-		<button type="button" on:click={decrement}><Badge class="rounded-full">-</Badge></button>
+		<button type="button" tabindex="-1" on:click={decrement}
+			><Badge class="rounded-full">-</Badge></button
+		>
 	</div>
 	<input {value} {name} type="number" min="0" class="appearance-none text-center" />
 	<div>
-		<button type="button" on:click={increment}><Badge class="rounded-full">+</Badge></button>
+		<button type="button" tabindex="-1" on:click={increment}
+			><Badge class="rounded-full">+</Badge></button
+		>
 	</div>
 </div>
 

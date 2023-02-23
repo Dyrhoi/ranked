@@ -10,8 +10,11 @@
 	<p slot="description">Who won?</p>
 
 	<CreateGameForm on:close={() => (isOpen = false)}>
-		<button type="button" on:click={() => (isOpen = false)}>Cancel</button>
-		<button type="submit">Create</button>
+		<div class="seperator" />
+		<div class="flex justify-end gap-8">
+			<button type="button" class="btn btn-alt" on:click={() => (isOpen = false)}>Cancel</button>
+			<button type="submit" class="btn btn-primary">Create Game</button>
+		</div>
 	</CreateGameForm>
 </Modal>
 

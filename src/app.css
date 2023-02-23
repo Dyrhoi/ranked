@@ -27,4 +27,16 @@
 	.seperator {
 		@apply h-[1px] w-full bg-white/10;
 	}
+
+	.btn {
+		@apply bg-white/10 hover:bg-white/20 rounded-lg text-text-title text-sm font-semibold px-5 py-2.5 flex items-center gap-2.5 transition-colors duration-200 ease-in-out;
+	}
+
+	.btn.btn-alt {
+		@apply bg-transparent rounded-lg text-text-title hover:text-text text-sm font-semibold px-0 py-2.5 flex items-center gap-2.5 transition-colors duration-200 ease-in-out;
+	}
+
+	.btn.btn-primary {
+		@apply bg-primary-700 hover:bg-primary-800 rounded-lg text-primary-100 text-sm font-semibold uppercase px-5 py-2.5 flex items-center gap-2.5 transition-colors duration-200 ease-in-out;
+	}
 }
