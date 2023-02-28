@@ -5,6 +5,7 @@
 
 import { getNewRating } from '$lib/shared/utils/elo.utils';
 import type { CreateGameSchema } from '$lib/shared/validation/zod';
+import dayjs from 'dayjs';
 import { db } from '../database';
 import { getCurrentEloFromInstants } from './elo.service';
 
@@ -107,13 +108,37 @@ interface Options {
 	maxTeams: number;
 	limit: number;
 	page: number;
+	seasonId: number;
 }
-export const getGames = async (opt: Options = { maxTeams: 2, limit: 30, page: 1 }) => {
-	const games = db.$queryRaw<{ id: number }[]>`
-	SELECT "Game".id FROM "Game" JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
-	GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) = ${opt.maxTeams}
-	LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
-	`;
+export const getGames = async (
+	opt: Options = { maxTeams: 2, limit: 30, page: 1, seasonId: -1 }
+) => {
+	const season = (
+		await db.season.findMany({
+			where: { id: opt.seasonId },
+		})
+	)[0] || { startDate: null, endDate: null };
 
-	return await games;
+	const { startDate, endDate } = season;
+
+	let games: unknown = [];
+
+	if (startDate && endDate) {
+		games = db.$queryRaw<{ id: number }[]>`
+		SELECT "Game".id FROM "Game" 
+		JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
+		WHERE "Game".created_at BETWEEN ${startDate} AND ${endDate}
+		GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) = ${opt.maxTeams}
+		LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
+		`;
+	} else {
+		games = db.$queryRaw<{ id: number }[]>`
+		SELECT "Game".id FROM "Game" 
+		JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
+		GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) = ${opt.maxTeams}
+		LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
+		`;
+	}
+
+	return (await games) as { id: number }[];
 };

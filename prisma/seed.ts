@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 import { createGame } from '../src/lib/server/services/game.service';
+import { getCurrentSeason } from '../src/lib/shared/utils/date.util';
 import { faker } from '@faker-js/faker';
+import dayjs from 'dayjs';
 const prisma = new PrismaClient();
 
 async function main() {
@@ -39,6 +41,15 @@ async function main() {
 		return await createGame({ teams });
 	});
 	const games = await Promise.all(createGames);
+
+	const currentSeason = getCurrentSeason() + 1;
+	await prisma.season.create({
+		data: {
+			name: currentSeason,
+			startDate: dayjs().add(2, 'months').toDate(),
+			endDate: dayjs().subtract(1, 'months').toDate(),
+		},
+	});
 
 	console.log(`Seeded databse with ${players.length} players and ${games.length} games.`);
 }
