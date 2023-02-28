@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import Badge from '../Badge.svelte';
 
 	interface $$Props extends Partial<HTMLInputElement> {}
@@ -13,6 +14,13 @@
 	const decrement = () => {
 		value = String(Math.max(0, Number(value) - 1));
 	};
+
+	let input: HTMLInputElement;
+	onMount(() => {
+		input.addEventListener('focus', () => {
+			input.select();
+		});
+	});
 </script>
 
 <div class="flex justify-between gap-8 items-center">
@@ -21,7 +29,14 @@
 			><Badge class="rounded-full">-</Badge></button
 		>
 	</div>
-	<input {value} {name} type="number" min="0" class="appearance-none text-center" />
+	<input
+		bind:this={input}
+		{value}
+		{name}
+		type="number"
+		min="0"
+		class="appearance-none text-center"
+	/>
 	<div>
 		<button type="button" tabindex="-1" on:click={increment}
 			><Badge class="rounded-full">+</Badge></button

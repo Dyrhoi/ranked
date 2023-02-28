@@ -2,7 +2,7 @@
 	import { CreateGameForm } from '.';
 	import { Modal } from '../modal';
 
-	export let isOpen = true;
+	export let isOpen = false;
 </script>
 
 <Modal open={isOpen} on:close={() => (isOpen = false)}>
