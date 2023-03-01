@@ -5,8 +5,6 @@
 
 import { getNewRating } from '$lib/shared/utils/elo.utils';
 import type { CreateGameSchema } from '$lib/shared/validation/zod';
-import type { PrismaPromise } from '@prisma/client';
-import dayjs from 'dayjs';
 import { db } from '../database';
 import { getCurrentEloFromInstants } from './elo.service';
 
@@ -52,7 +50,7 @@ const simulateMatch = (team: SimplifiedTeam, opponent: SimplifiedTeam) => {
 	}));
 };
 
-export const createGame = async ({ teams }: CreateGameSchema) => {
+export const createGame = async ({ teams, seasonId }: CreateGameSchema) => {
 	const players = await db.player.findMany({
 		where: {
 			id: {
@@ -96,6 +94,10 @@ export const createGame = async ({ teams }: CreateGameSchema) => {
 						elo: player.elo,
 					}))
 				),
+			},
+
+			seasons: {
+				connect: seasonId ? { id: seasonId } : undefined,
 			},
 		},
 		include: {

@@ -54,6 +54,7 @@ model Game {
   countTeams Int @default(0)
 
   eloInstants Elo[]
+  seasons Season[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt
@@ -76,8 +77,7 @@ model Season {
   id Int @id @default(autoincrement())
   name String @unique
 
-  startDate DateTime
-  endDate DateTime
+  games Game[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -8,6 +8,7 @@ export const CreateGameSchema = zfd.formData({
 			score: zfd.numeric(),
 		})
 	),
+	seasonId: z.optional(zfd.numeric()),
 });
 
 export type CreateGameSchema = z.infer<typeof CreateGameSchema>;
