@@ -5,6 +5,7 @@
 
 import { getNewRating } from '$lib/shared/utils/elo.utils';
 import type { CreateGameSchema } from '$lib/shared/validation/zod';
+import type { PrismaPromise } from '@prisma/client';
 import dayjs from 'dayjs';
 import { db } from '../database';
 import { getCurrentEloFromInstants } from './elo.service';
@@ -71,23 +72,25 @@ export const createGame = async ({ teams }: CreateGameSchema) => {
 			})),
 	}));
 
-	const updatedElo = simulateMatches(teamsSimplified);
+	const teamWithUpdatedElo = simulateMatches(teamsSimplified);
 
 	const game = await db.game.create({
 		data: {
 			teams: {
-				create: updatedElo.map((team) => ({
+				create: teamWithUpdatedElo.map((team) => ({
 					team: {
 						create: {
 							players: { connect: team.players.map((p) => ({ id: p.id })) },
+							countPlayers: team.players.length,
 						},
 					},
 					score: team.score,
 				})),
 			},
+			countTeams: teamWithUpdatedElo.length,
 			// Lose type safety from flatMap... it is what it is.
 			eloInstants: {
-				create: updatedElo.flatMap((team) =>
+				create: teamWithUpdatedElo.flatMap((team) =>
 					team.players.map((player) => ({
 						player: { connect: { id: player.id } },
 						elo: player.elo,
@@ -113,32 +116,17 @@ interface Options {
 export const getGames = async (
 	opt: Options = { maxTeams: 2, limit: 30, page: 1, seasonId: -1 }
 ) => {
-	const season = (
-		await db.season.findMany({
-			where: { id: opt.seasonId },
-		})
-	)[0] || { startDate: null, endDate: null };
+	const games = db.game.findMany({
+		include: { teams: true },
+		where: {
+			countTeams: opt.maxTeams,
+		},
+		orderBy: {
+			createdAt: 'desc',
+		},
+		take: opt.limit,
+		skip: opt.limit * (opt.page - 1),
+	});
 
-	const { startDate, endDate } = season;
-
-	let games: unknown = [];
-
-	if (startDate && endDate) {
-		games = db.$queryRaw<{ id: number }[]>`
-		SELECT "Game".id FROM "Game" 
-		JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
-		WHERE "Game".created_at BETWEEN ${startDate} AND ${endDate}
-		GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) = ${opt.maxTeams}
-		LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
-		`;
-	} else {
-		games = db.$queryRaw<{ id: number }[]>`
-		SELECT "Game".id FROM "Game" 
-		JOIN "TeamOnGame" ON "Game".id = "TeamOnGame".game_id 
-		GROUP BY "Game".id HAVING COUNT("TeamOnGame".id) = ${opt.maxTeams}
-		LIMIT ${opt.limit} OFFSET ${opt.limit * (opt.page - 1)}
-		`;
-	}
-
-	return (await games) as { id: number }[];
+	return games;
 };

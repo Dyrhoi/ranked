@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
 }
 
 datasource db {
@@ -24,6 +25,9 @@ model Player {
 model Team {
   id Int @id @default(autoincrement())
   players Player[]
+  // Due to poor support for counting amount of relations in Prisma-
+  countPlayers Int @default(0)
+
   game TeamOnGame[]
 
   createdAt DateTime @default(now())
@@ -46,6 +50,9 @@ model TeamOnGame {
 model Game {
   id Int @id @default(autoincrement())
   teams TeamOnGame[]
+  // Due to poor support for counting amount of relations in Prisma.
+  countTeams Int @default(0)
+
   eloInstants Elo[]
 
   createdAt DateTime @default(now()) @map("created_at")
