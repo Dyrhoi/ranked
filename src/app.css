@@ -29,7 +29,7 @@
 	}
 
 	.btn {
-		@apply bg-white/10 hover:bg-white/20 rounded-lg text-text-title text-sm font-semibold px-5 py-2.5 flex items-center gap-2.5 transition-colors duration-200 ease-in-out;
+		@apply bg-slate-600/10 hover:bg-slate-600/20 rounded-lg text-text-title text-sm font-semibold px-5 py-2.5 flex items-center gap-2.5 transition-colors duration-200 ease-in-out;
 	}
 
 	.btn.btn-alt {

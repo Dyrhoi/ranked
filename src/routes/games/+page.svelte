@@ -10,7 +10,7 @@
 </script>
 
 <div class="container max-w-[720px]">
-	<div class="grid gap-4">
+	<div class="grid gap-6">
 		{#each data.games as game}
 			<GameRow {game} />
 		{/each}

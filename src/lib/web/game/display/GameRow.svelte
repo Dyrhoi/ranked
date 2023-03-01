@@ -19,7 +19,7 @@
 
 <div>
 	<Card
-		class={classnames('p-6 grid gap-3 from-primary-400/5', {
+		class={classnames('p-10 grid gap-3 from-primary-400/5', {
 			'bg-gradient-to-r': game.teams[0].winner,
 			'bg-gradient-to-l': game.teams[1].winner,
 		})}

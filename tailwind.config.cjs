@@ -1,4 +1,5 @@
 const colors = require('tailwindcss/colors');
+const defaultTheme = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
@@ -8,6 +9,13 @@ module.exports = {
 		},
 		container: {
 			center: true,
+		},
+		screens: {
+			...defaultTheme.screens,
+			md: '720px',
+			lg: '720px',
+			xl: '720px',
+			'2xl': '720px',
 		},
 		extend: {
 			colors: {
