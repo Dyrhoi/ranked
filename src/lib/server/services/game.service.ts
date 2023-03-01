@@ -119,7 +119,10 @@ export const getGames = async (
 	opt: Options = { maxTeams: 2, limit: 30, page: 1, seasonId: -1 }
 ) => {
 	const games = db.game.findMany({
-		include: { teams: true },
+		include: {
+			teams: { include: { team: { include: { players: true } } } },
+			seasons: { orderBy: { createdAt: 'desc' } },
+		},
 		where: {
 			countTeams: opt.maxTeams,
 		},

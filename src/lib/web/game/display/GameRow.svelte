@@ -12,7 +12,7 @@
 	import Label from '$lib/web/Label.svelte';
 
 	import { Icon } from '@steeze-ui/svelte-icon';
-	import { Calendar, ChevronRight } from '@steeze-ui/heroicons';
+	import { Calendar, ChevronRight, Swatch } from '@steeze-ui/heroicons';
 
 	export let game: GameInfo;
 </script>
@@ -25,14 +25,16 @@
 		})}
 		clickAble={true}
 	>
-		<div class="flex justify-between items-center gap-8">
+		<div class="flex flex-col sm:flex-row justify-between items-center gap-8">
 			{#each game.teams as team, i}
-				<div class="last-of-type:text-right group w-1/2 flex justify-between items-center">
-					<div class="grid gap-2">
+				<div
+					class="sm:last-of-type:text-right sm:last-of-type:justify-end group sm:w-1/2 flex sm:flex-row flex-col gap-8 sm:gap-2 justify-between items-center"
+				>
+					<div class="flex gap-8 flex-wrap justify-center sm:flex-nowrap sm:flex-col sm:gap-2">
 						{#each team.players as player}
 							<!-- Player listening -->
 							<div
-								class={classnames('flex group-last-of-type:justify-end gap-2', {
+								class={classnames('flex sm:group-last-of-type:justify-end gap-2', {
 									'text-primary-400 font-semibold': team.winner,
 								})}
 							>
@@ -51,33 +53,52 @@
 							</div>
 						{/each}
 					</div>
-					<!-- Team Score -->
-					<div
-						class={classnames(
-							'text-sm w-8 h-8 rounded items-center flex justify-center font-bold',
-							{
-								'order-first': team === game.teams[1],
-							},
-							{ 'text-primary-400 bg-primary-400/10': team.winner },
-							{ 'text-text-tile bg-white/5': !team.winner }
-						)}
-					>
-						{team.score}
-					</div>
 				</div>
-				<!-- VS Indicator -->
-				{#if i + 1 < game.teams.length}
-					<div class="text-xl group-last-of-type:hidden text-text-title font-bold">VS</div>
+				<!-- Team scores -->
+				<!-- Kinda messy but we need it for proper layout -->
+				<!-- We are basically showing [VS + TEAM] if there is one more team in the loop. -->
+				{#if game.teams.length > i + 1}
+					{@const opponent = game.teams[i + 1]}
+					<div class="flex gap-4">
+						<!-- Team X Score -->
+						<div
+							class={classnames(
+								'text-sm w-8 h-8 rounded items-center flex justify-center font-bold',
+								{ 'text-primary-400 bg-primary-400/10': team.winner },
+								{ 'text-text-tile bg-white/5': !team.winner }
+							)}
+						>
+							{team.score}
+						</div>
+						<!-- VS Indicator -->
+						<div class="text-xl text-text-title font-bold">VS</div>
+						<!-- Team Opponent Score -->
+						<div
+							class={classnames(
+								'text-sm w-8 h-8 rounded items-center flex justify-center font-bold',
+								{ 'text-primary-400 bg-primary-400/10': opponent.winner },
+								{ 'text-text-tile bg-white/5': !opponent.winner }
+							)}
+						>
+							{opponent.score}
+						</div>
+					</div>
 				{/if}
 			{/each}
 		</div>
 		<div class="seperator" />
-		<div class="flex justify-between text-sm items-center">
-			<div class="flex">
+		<div class="flex justify-center sm:justify-between text-sm items-center">
+			<div class="flex gap-4">
 				<Label>
 					<Icon size="1.2em" theme="solid" src={Calendar} />
 					{recentTime(game.createdAt)}
 				</Label>
+				{#if game.seasons.length > 0}
+					<Label>
+						<Icon size="1.2em" theme="solid" src={Swatch} />
+						{game.seasons[0].name}
+					</Label>
+				{/if}
 			</div>
 			<!-- TODO: No more data to show right now. -->
 			<div class="hidden">
