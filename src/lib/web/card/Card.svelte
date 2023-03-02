@@ -5,6 +5,8 @@
 	let clazz: string = '';
 	export { clazz as class };
 
+	export let border: 'inline' | 'external' = 'external';
+
 	export let clickAble = false;
 </script>
 
@@ -14,7 +16,8 @@
 			'bg-gradient-to-t from-white/5 to-white/0 card p-24 rounded-xl relative overflow-hidden',
 			clazz
 		),
-		{ 'cursor-pointer clickable': clickAble }
+		{ 'cursor-pointer clickable': clickAble },
+		{ external: border === 'external' }
 	)}
 >
 	<slot />
@@ -22,7 +25,7 @@
 
 <style lang="scss">
 	/* Linear Stroke */
-	.card {
+	.card.external {
 		&::after,
 		&::before {
 			content: '';

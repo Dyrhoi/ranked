@@ -5,6 +5,7 @@
 
 import { getNewRating } from '$lib/shared/utils/elo.utils';
 import type { CreateGameSchema } from '$lib/shared/validation/zod';
+import { Prisma } from '@prisma/client';
 import { db } from '../database';
 import { getCurrentEloFromInstants } from './elo.service';
 
@@ -134,4 +135,14 @@ export const getGames = async (
 	});
 
 	return games;
+};
+
+const gameWithTeamsSchema = Prisma.validator<Prisma.GameArgs>()({
+	include: { teams: { include: { team: { include: { players: true } } } } },
+});
+
+type GameWithTeams = Prisma.GameGetPayload<typeof gameWithTeamsSchema>;
+
+export const concludeWinner = (game: GameWithTeams) => {
+	return game.teams.reduce((acc, curr) => (curr.score > acc.score ? curr : acc), game.teams[0]);
 };
