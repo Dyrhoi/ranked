@@ -26,15 +26,10 @@
 		>
 			<FirstPlace {firstPlace} />
 		</Card>
-		<div class="flex gap-4 justify-between">
+		<div class="flex flex-col sm:flex-row gap-4 justify-between">
 			{#each top as player, i}
 				{@const position = i + topAmount - 1}
-				<Card
-					class="p-4 flex-1 from-slate-700/10 to-slate-700/5 border-orange-100/10 border"
-					border={'inline'}
-				>
-					<TopFive {player} {position} />
-				</Card>
+				<TopFive {player} {position} />
 			{/each}
 		</div>
 		<Card class="p-8">
