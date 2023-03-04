@@ -4,9 +4,7 @@
 
 <script lang="ts">
 	import Card from '$lib/web/card/Card.svelte';
-	import FirstPlace from '$lib/web/leaderboard/FirstPlace.svelte';
-	import PlayerRow from '$lib/web/leaderboard/PlayerRow.svelte';
-	import TopFive from '$lib/web/leaderboard/Top.svelte';
+	import { FirstPlace, PlayerRow, Top } from '$lib/web/leaderboard';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
@@ -29,7 +27,7 @@
 		<div class="flex flex-col sm:flex-row gap-4 justify-between">
 			{#each top as player, i}
 				{@const position = i + topAmount - 1}
-				<TopFive {player} {position} />
+				<Top {player} {position} />
 			{/each}
 		</div>
 		<Card class="p-8">

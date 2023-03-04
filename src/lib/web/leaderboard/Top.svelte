@@ -1,11 +1,9 @@
 <script lang="ts">
 	import { generateAvatar } from '$lib/shared/utils/avatar.util';
+	import { PlayerRow, Position, Winrate } from '.';
 	import type { PlayerInfo } from '../../../routes/+page.svelte';
 	import Card from '../card/Card.svelte';
 	import Label from '../Label.svelte';
-	import PlayerRow from './PlayerRow.svelte';
-	import Position from './Position.svelte';
-	import Winrate from './Winrate.svelte';
 	export let player: PlayerInfo;
 	export let position: number;
 

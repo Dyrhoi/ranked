@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { generateAvatar } from '$lib/shared/utils/avatar.util';
+	import { Winrate } from '.';
 	import type { PlayerInfo } from '../../../routes/+page.svelte';
 	import Label from '../Label.svelte';
-	import Winrate from './Winrate.svelte';
 	export let firstPlace: PlayerInfo;
 </script>
 
