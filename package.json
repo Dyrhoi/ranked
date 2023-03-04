@@ -41,6 +41,7 @@
 		"svelte": "^3.54.0",
 		"svelte-check": "^3.0.1",
 		"svelte-headlessui-combobox-temporary": "github:NoelOConnell/svelte-headlessui#combobox-component",
+		"tailwind-scrollbar": "^2.1.0",
 		"tailwindcss": "^3.2.4",
 		"ts-node": "^10.9.1",
 		"tslib": "^2.4.1",

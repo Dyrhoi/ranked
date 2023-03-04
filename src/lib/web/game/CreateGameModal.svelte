@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PlusCircle, RectangleGroup } from '@steeze-ui/heroicons';
+	import { PlusCircle } from '@steeze-ui/heroicons';
 	import { Icon } from '@steeze-ui/svelte-icon';
 	import { CreateGameForm } from '.';
 	import { Modal } from '../modal';

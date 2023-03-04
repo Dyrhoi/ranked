@@ -1,18 +1,16 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
-	import { createQuery, createMutation } from '@tanstack/svelte-query';
-	import { apiClient } from '../api/axios';
-	import type { Player } from '@prisma/client';
 	import { invalidateAll } from '$app/navigation';
-	import { Icon } from '@steeze-ui/svelte-icon';
+	import type { Player } from '@prisma/client';
 	import { Bolt, UserGroup } from '@steeze-ui/heroicons';
-	import ScoreInput from '../form/ScoreInput.svelte';
+	import { Icon } from '@steeze-ui/svelte-icon';
+	import { createMutation } from '@tanstack/svelte-query';
+	import { createEventDispatcher } from 'svelte';
+	import { apiClient } from '../api/axios';
 	import PlayerSearch from '../form/PlayerSearch.svelte';
+	import ScoreInput from '../form/ScoreInput.svelte';
 
-	const queryPlayers = createQuery<{ players: Player[] }, Error>({
-		queryKey: ['players'],
-		queryFn: async () => (await apiClient.get('/players')).data,
-	});
+	import { queryPlayers } from '../queries';
+	$: players = queryPlayers();
 
 	let form: HTMLFormElement;
 	const dispatch = createEventDispatcher();
@@ -41,17 +39,17 @@
 
 	let availablePlayers: Player[] = [];
 	$: availablePlayers =
-		$queryPlayers.data?.players.filter((player) => {
+		$players.data?.players.filter((player) => {
 			return teams.flat().every((playerId) => playerId !== player.id);
 		}) || [];
 </script>
 
 <div class="w-full">
-	{#if $queryPlayers.isLoading}
+	{#if $players.isLoading}
 		<span>Loading players...</span>
-	{:else if $queryPlayers.isError}
-		<span>An error has occurred: {$queryPlayers.error.message}</span>
-	{:else if $queryPlayers.isSuccess}
+	{:else if $players.isError}
+		<span>An error has occurred: {$players.error.message}</span>
+	{:else if $players.isSuccess}
 		<form
 			action="/games/create"
 			method="POST"

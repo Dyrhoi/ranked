@@ -49,8 +49,9 @@
 		<Transition leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
 			<ComboboxOptions
 				class={classNames(
-					'from-bg-modal-from/95 to-bg-modal-to/95 backdrop-blur-sm bg-gradient-to-b rounded absolute overflow-hidden z-10 w-[110%] ml-[-5%] top-[130%] border-white/5',
-					{ border: filteredPlayers.length }
+					'from-bg-modal-from/95 to-bg-modal-to/95 max-h-36 overflow-y-scroll backdrop-blur-sm bg-gradient-to-b rounded absolute overflow-hidden z-10 w-[110%] ml-[-5%] top-[130%] border-white/5',
+					{ border: filteredPlayers.length },
+					'scrollbar-thumb-gray-600 scrollbar-track-gray-900 scrollbar-thin'
 				)}
 			>
 				{#each filteredPlayers as player}

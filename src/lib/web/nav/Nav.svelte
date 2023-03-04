@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { RectangleStack, Trophy, User } from '@steeze-ui/heroicons';
 	import { CreateGameModal } from '../game';
+	import UserSignup from '../user/UserSignup.svelte';
 	import NavItem from './NavItem.svelte';
 
 	export let spacer = true;
@@ -28,7 +29,7 @@
 				<span class="select-none">|</span>
 				<ul>
 					<li>
-						<NavItem iconSource={User}>Me</NavItem>
+						<UserSignup />
 					</li>
 				</ul>
 			</div>
