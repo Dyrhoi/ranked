@@ -11,6 +11,7 @@
 	import type { SupportedAs } from 'svelte-headlessui-combobox-temporary/internal/elements';
 	import type { ComboboxProps } from 'svelte-headlessui-combobox-temporary/components/combobox/Combobox.svelte';
 	import classNames from 'classnames';
+	import Fuse from 'fuse.js';
 	const dispatch = createEventDispatcher();
 
 	interface $$Props extends ComboboxProps<SupportedAs> {
@@ -18,16 +19,20 @@
 		players: Player[];
 	}
 	export let name: string = '';
+	let myValue: Partial<Player>;
+	export let players: Player[] = [];
+
+	const fuse = new Fuse(players, {
+		keys: ['name'],
+		threshold: 0.3,
+	});
 
 	let query = '';
 	$: filteredPlayers = [
-		...players.filter((player) => player.name.toLowerCase().includes(query.toLowerCase())),
+		...fuse.search(query).map((result) => result.item),
 		// Do not remove actively selected player from list
-		myValue ? { ...myValue } : null,
+		// myValue ? { ...myValue } : null,
 	];
-
-	let myValue: Partial<Player>;
-	export let players: Player[] = [];
 </script>
 
 <div>
