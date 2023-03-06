@@ -1,15 +1,8 @@
-import { browser } from '$app/environment';
+import { setContext } from 'svelte';
 import { writable } from 'svelte/store';
 
-const defaultValue = '';
-const initialValue = browser ? window.localStorage.getItem('user') ?? defaultValue : defaultValue;
+import type { LayoutData } from './$types';
 
-const user = writable<string>(initialValue);
-
-user.subscribe((value) => {
-	if (browser) {
-		window.localStorage.setItem('user', value);
-	}
-});
-
-export default user;
+export let data: LayoutData;
+// Create a store and update it when necessary...
+export const user = writable();

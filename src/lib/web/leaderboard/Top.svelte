@@ -8,8 +8,6 @@
 	export let position: number;
 
 	let windowWidth: number;
-
-	$: console.log(windowWidth);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
