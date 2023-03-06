@@ -22,6 +22,18 @@ export const actions: Actions = {
 			maxAge: 60 * 60 * 24 * 31, // 31 days
 		});
 
-		return { success: true };
+		return { update: true, success: true };
+	},
+	reset: async (event) => {
+		const { cookies } = event;
+		cookies.set(AUTHENTICATION_TOKEN_COOKIE, '-1', {
+			path: '/',
+			httpOnly: true,
+			sameSite: 'strict',
+			secure: process.env.NODE_ENV === 'production',
+			maxAge: 1,
+		});
+
+		return { reset: true, success: true };
 	},
 };

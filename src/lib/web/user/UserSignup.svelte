@@ -15,14 +15,14 @@
 	export let isOpen = false;
 
 	const user = getContext<SvelteStore<Player>>('user');
-	$: signedIn = !!user;
+	$: signedIn = !!$user;
 	$: players = queryPlayers();
 
-	const updateUser = () => {
+	const updateUser = (shouldClose = true) => {
 		invalidateAll();
-		isOpen = false;
+		isOpen = !shouldClose;
 	};
-	$: $page.form?.success && updateUser();
+	$: $page.form?.success && updateUser($page.form?.update || false);
 </script>
 
 <Modal open={isOpen} on:close={() => (isOpen = false)}>
@@ -31,11 +31,30 @@
 	<div class="grid gap-4">
 		{#if signedIn}
 			<p class="text-text-title">Seems like you're already setup.</p>
-			<div class="flex gap-4 items-center">
-				<img src={generateAvatar($user)} class="h-8 w-8 rounded-full" alt="Avatar" />
-				{$user.name}
+			<div>
+				<div
+					class="flex gap-4 items-center px-4 py-2 bg-bg-input border text-text-title border-bg-input-border rounded-full"
+				>
+					<img src={generateAvatar($user)} class="h-8 w-8 rounded-full" alt="Avatar" />
+					{$user.name}
+					<div class="ml-auto">
+						<form
+							action="/auth?/reset"
+							method="POST"
+							use:enhance={() => {
+								return async ({ result }) => {
+									if (result.type === 'success') {
+										await applyAction(result);
+									}
+								};
+							}}
+						>
+							<button class="btn btn-alt">Reset</button>
+						</form>
+					</div>
+				</div>
 			</div>
-			<p>Change your user by selecting a different one.</p>
+			<p>You can change your user by selecting a different one.</p>
 			<div class="seperator" />
 		{/if}
 		<form

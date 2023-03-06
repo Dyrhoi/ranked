@@ -50,6 +50,7 @@
 				query = e.detail;
 			}}
 			displayValue={(player) => player?.name}
+			placeholder="Search for a player..."
 		/>
 		<Transition leave="transition ease-in duration-100" leaveFrom="opacity-100" leaveTo="opacity-0">
 			<ComboboxOptions

@@ -14,7 +14,7 @@
 
 <div
 	class={classNames('text-center flex items-center px-3 py-2 rounded-full odd:bg-gray-900/20', {
-		'!bg-emerald-600/30 text-emerald-200': $user?.id === player.id,
+		'!bg-emerald-600/30 text-emerald-200 border border-emerald-400': $user?.id === player.id,
 	})}
 >
 	<div class="flex items-center w-2/3">
