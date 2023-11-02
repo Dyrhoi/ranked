@@ -121,6 +121,9 @@ dependencies:
   react-hook-form:
     specifier: ^7.47.0
     version: 7.47.0(react@18.0.0)
+  remeda:
+    specifier: ^1.28.0
+    version: 1.28.0
   tailwind-merge:
     specifier: ^2.0.0
     version: 2.0.0
@@ -4389,6 +4392,10 @@ packages:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
     engines: {node: '>=8'}
     dev: true
+
+  /remeda@1.28.0:
+    resolution: {integrity: sha512-QANcfxsEiRCdiN8PQ7LsPQvW1qVFAO2x4dXEpuWbZKPrzzRG2BA0SXReDnhppD2YZKgLWA/bLpHq0ANenXea1w==}
+    dev: false
 
   /resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}

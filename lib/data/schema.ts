@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm"
 import {
   index,
   pgTable,
@@ -8,7 +9,7 @@ import {
   primaryKey,
 } from "drizzle-orm/pg-core"
 
-export const players = pgTable(
+export const playersTable = pgTable(
   "players",
   {
     id: uuid("id").defaultRandom().primaryKey(),
@@ -19,12 +20,17 @@ export const players = pgTable(
   })
 )
 
-export const elo = pgTable(
+export const playersRelations = relations(playersTable, ({ many }) => ({
+  eloHistory: many(eloTable),
+  games: many(gamePlayersTable),
+}))
+
+export const eloTable = pgTable(
   "elo",
   {
     id: uuid("id").defaultRandom().primaryKey(),
     playerId: uuid("player_id")
-      .references(() => players.id)
+      .references(() => playersTable.id)
       .notNull(),
     elo: doublePrecision("elo").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -34,18 +40,22 @@ export const elo = pgTable(
   })
 )
 
-export const games = pgTable("games", {
+export const gamesTable = pgTable("games", {
   id: uuid("id").defaultRandom().primaryKey(),
 })
 
-export const game_players = pgTable(
+export const gamesRelations = relations(gamesTable, ({ many }) => ({
+  players: many(gamePlayersTable),
+}))
+
+export const gamePlayersTable = pgTable(
   "game_players",
   {
     gameId: uuid("game_id")
-      .references(() => games.id)
+      .references(() => gamesTable.id)
       .notNull(),
     playerId: uuid("player_id")
-      .references(() => players.id)
+      .references(() => playersTable.id)
       .notNull(),
     team: varchar("team").notNull(),
     role: varchar("role").notNull(),
@@ -56,5 +66,13 @@ export const game_players = pgTable(
   })
 )
 
-export type Player = typeof players.$inferSelect
-export type Elo = typeof elo.$inferSelect
+export const gamePlayersRelations = relations(gamePlayersTable, ({ one }) => ({
+  game: one(gamesTable, {
+    fields: [gamePlayersTable.gameId],
+    references: [gamesTable.id],
+  }),
+  player: one(playersTable, {
+    fields: [gamePlayersTable.playerId],
+    references: [playersTable.id],
+  }),
+}))
