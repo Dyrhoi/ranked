@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1698950547914,
+      "tag": "0000_rich_white_tiger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1698951824860,
+      "tag": "0001_mute_the_phantom",
+      "breakpoints": true
+    }
+  ]
+}
